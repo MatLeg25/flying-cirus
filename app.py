@@ -1,7 +1,7 @@
 import bcrypt
 
 import data
-from flask import Flask, session, url_for, render_template, request, redirect
+from flask import Flask, session, url_for, render_template, request, redirect, make_response
 
 app = Flask(__name__)
 app.secret_key = bcrypt.gensalt()
@@ -15,8 +15,22 @@ HASH_PW = b'$2b$12$s8Qmmgn4m6eDXuq1KTdgI.Y2yF6kfoXKBl9xk0C6Bj7Z7FxSTkEsG'
 def index():
     session['first_time'] = 'tak' #dodawwanie nowych kluczy do sesji
     user_name=''
+
+    is_pierwszy_raz= request.cookies.get('pierwszy_raz')
+    is_drugi_raz = request.cookies.get('drugi_raz')
+    if is_pierwszy_raz == 'moje pierwsze ciasteczko!':
+        print("Tu byłem!")
+    if is_drugi_raz:
+        print("Tu byłem2!",is_drugi_raz)
+
+    resp = make_response(render_template("index.html", user_name=user_name))
+    #resp.set_cookie('pierwszy_raz','moje pierwsze ciasteczko!')
+    resp.set_cookie(key='drugi_raz', value= 'moje pierwsze ciasteczko!',max_age=5)
+
     if 'user_name' in session:
         user_name = session['user_name']
+    return resp
+
     return render_template('index.html', user_name=user_name)
 
 
