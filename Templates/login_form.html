@@ -5,15 +5,18 @@
     <title>Title</title>
 </head>
 <body>
+
 {% if bad_login == True %}
-    <h1>Wrong password! Try again.</h1>
+<h2> Wrong password! Try again! </h2>
 {% endif %}
-<form action="{{ url_for('login') }}" method="post">
-    <label for="email">Email: </label>
-    <input type="email" name="email" id="email" placeholder="Provide email...">
-    <label for="password">Password: </label>
-    <input type="password" name="password" id="password" placeholder="Provide password...">
-    <button type="submit">Login</button>
-</form>
+
+        <form action="{{url_for('login')}}" method="post">
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" placeholder="Provide email..">
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" placeholder="Provide password">
+            <button type="submit">Login</button>
+        </form>
+
 </body>
 </html>

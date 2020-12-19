@@ -9,11 +9,12 @@ app.secret_key = bcrypt.gensalt()
 
 LOGIN_EMAIL = 'kaszczak.jaroslaw@outlook.com'
 HASH_PW = b'$2b$12$s8Qmmgn4m6eDXuq1KTdgI.Y2yF6kfoXKBl9xk0C6Bj7Z7FxSTkEsG'
-
+#qwerty
 
 @app.route('/')
 def index():
-    session['first_time'] = 'tak'
+    session['first_time'] = 'tak' #dodawwanie nowych kluczy do sesji
+    user_name=''
     if 'user_name' in session:
         user_name = session['user_name']
     return render_template('index.html', user_name=user_name)
@@ -29,11 +30,15 @@ def login():
             if bcrypt.checkpw(password.encode('UTF-8'), HASH_PW):
                 session['user_name'] = LOGIN_EMAIL
                 return redirect(url_for('index'))
-            else:
-                return render_template('login_form.html', bad_login=True)
+        return render_template('login_form.html', bad_login=True)
 
     elif request.method == 'GET':
         return render_template('login_form.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('user_name')
+    return redirect(url_for('index'))
 
 
 if __name__ == '__app__':
